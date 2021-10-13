@@ -1,4 +1,4 @@
-package toy.vote.everything.service
+package toy.vote.main.service
 
 import org.springframework.stereotype.Service
 

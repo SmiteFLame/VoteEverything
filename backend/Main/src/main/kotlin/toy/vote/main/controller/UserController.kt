@@ -1,7 +1,7 @@
-package toy.vote.everything.controller
+package toy.vote.main.controller
 
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class VoteController {
+class UserController {
 }

@@ -1,4 +1,4 @@
-package toy.vote.everything.config
+package toy.vote.main.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
@@ -13,20 +13,20 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = ["toy.vote.everything.datasource.user"],
+    basePackages = ["toy.vote.main.datasource.vote"],
     entityManagerFactoryRef = "userEntityManager",
     transactionManagerRef = "userTransactionManager"
 )
-class UserConfiguration {
+class VoteConfiguration {
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource-user")
+    @ConfigurationProperties(prefix = "spring.datasource-vote")
     fun userDataSource(): DataSource = DataSourceBuilder.create().build()
 
     @Bean
     fun userEntityManager(): LocalContainerEntityManagerFactoryBean =
         (LocalContainerEntityManagerFactoryBean()).apply {
             dataSource = userDataSource()
-            setPackagesToScan("toy.vote.everything.datasource.user")
+            setPackagesToScan("toy.vote.main.datasource.vote")
             jpaVendorAdapter = HibernateJpaVendorAdapter()
         }
 

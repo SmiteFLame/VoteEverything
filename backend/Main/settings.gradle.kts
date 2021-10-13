@@ -1,1 +1,1 @@
-rootProject.name = "everything"
+rootProject.name = "Main"

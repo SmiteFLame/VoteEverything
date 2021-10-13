@@ -1,4 +1,4 @@
-package toy.vote.everything
+package toy.vote.main
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class MainApplication
 
 fun main(args: Array<String>) {
-	runApplication<MainApplication>(*args)
+    runApplication<MainApplication>(*args)
 }
