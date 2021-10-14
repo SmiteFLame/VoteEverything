@@ -14,26 +14,26 @@ import javax.sql.DataSource
 @Configuration
 @EnableJpaRepositories(
     basePackages = ["toy.vote.main.datasource.vote"],
-    entityManagerFactoryRef = "userEntityManager",
-    transactionManagerRef = "userTransactionManager"
+    entityManagerFactoryRef = "voteEntityManager",
+    transactionManagerRef = "voteTransactionManager"
 )
 class VoteConfiguration {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource-vote")
-    fun userDataSource(): DataSource = DataSourceBuilder.create().build()
+    fun voteDataSource(): DataSource = DataSourceBuilder.create().build()
 
     @Bean
-    fun userEntityManager(): LocalContainerEntityManagerFactoryBean =
+    fun voteEntityManager(): LocalContainerEntityManagerFactoryBean =
         (LocalContainerEntityManagerFactoryBean()).apply {
-            dataSource = userDataSource()
+            dataSource = voteDataSource()
             setPackagesToScan("toy.vote.main.datasource.vote")
             jpaVendorAdapter = HibernateJpaVendorAdapter()
         }
 
     @Bean
-    fun userTransactionManager(userDataSource: DataSource?): PlatformTransactionManager? {
+    fun voteTransactionManager(userDataSource: DataSource?): PlatformTransactionManager? {
         val jpaTransactionManager = JpaTransactionManager()
-        jpaTransactionManager.entityManagerFactory = userEntityManager().`object`
+        jpaTransactionManager.entityManagerFactory = voteEntityManager().`object`
         jpaTransactionManager.dataSource = userDataSource
         return jpaTransactionManager
     }
