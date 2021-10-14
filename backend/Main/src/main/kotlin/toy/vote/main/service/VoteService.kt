@@ -1,8 +1,9 @@
 package toy.vote.main.service
 
 import toy.vote.main.enumclass.Response
-import toy.vote.main.redis.entitiy.VoteRedis
+import toy.vote.main.redis.entitiy.Vote
 
 interface VoteService {
-    fun insertVote(vote: VoteRedis) : Response
+    fun selectVoteByName(name : String): Vote
+    fun insertVote(voteRedis: Vote) : Response
 }

@@ -6,7 +6,7 @@ import java.sql.Timestamp
 import javax.persistence.Id
 
 @RedisHash("vote")
-data class VoteRedis(
+data class Vote(
     @Id
     val id: Int? = null,
     val email: String,
