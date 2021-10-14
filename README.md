@@ -26,3 +26,9 @@ CREATE TABLE user(
 );
 
 ```
+
+### Vote Redis
+
+```
+docker run --name voteRedis -d -p 6379:6379 redis
+```
