@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
-import toy.vote.main.redis.entitiy.Vote
-import toy.vote.main.redis.repository.VoteRepository
+import toy.vote.main.datasource.vote.entitiy.Vote
+import toy.vote.main.datasource.vote.repository.VoteRepository
 import toy.vote.main.service.UserService
 import toy.vote.main.service.VoteService
 

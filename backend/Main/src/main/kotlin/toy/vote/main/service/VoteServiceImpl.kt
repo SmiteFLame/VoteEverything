@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.VoteException
-import toy.vote.main.redis.entitiy.Vote
-import toy.vote.main.redis.repository.VoteRepository
+import toy.vote.main.datasource.vote.entitiy.Vote
+import toy.vote.main.datasource.vote.repository.VoteRepository
+import java.sql.Timestamp
+import java.util.UUID
 
 @Service
 class VoteServiceImpl : VoteService {
@@ -18,7 +20,10 @@ class VoteServiceImpl : VoteService {
     }
 
     override fun insertVote(vote: Vote): Response {
+        vote.id = UUID.randomUUID().toString()
+        vote.startTime = Timestamp(System.currentTimeMillis())
         voteRepository.save(vote)
+        print(voteRepository.findVoteById(vote.id!!))
         return Response.SUCCESS
     }
 }
