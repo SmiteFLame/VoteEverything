@@ -11,7 +11,7 @@ class UserServiceImpl : UserService {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    override fun selectUserByEmail(email : String): User? {
+    override fun selectUserByEmail(email: String): User? {
         return userRepository.findUserByEmail(email)
     }
 }
