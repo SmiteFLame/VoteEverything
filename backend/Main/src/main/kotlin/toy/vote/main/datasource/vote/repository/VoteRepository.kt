@@ -8,5 +8,5 @@ import toy.vote.main.datasource.vote.entitiy.Vote
 interface VoteRepository : JpaRepository<Vote, String> {
     fun findVotesByName(name: String): List<Vote>
     fun findVoteByName(name: String): Vote?
-    fun findVoteById(id : String): Vote?
+    fun findVoteById(id: String): Vote?
 }

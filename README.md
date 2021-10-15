@@ -9,6 +9,30 @@
 ```MySQL
 docker run -p 43306:3306 --name VoteDB -e MYSQL_ROOT_PASSWORD=toy -e MYSQL_DATABASE="vote" -d mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
+CREATE TABLE vote(
+    vote_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(50) NOT NULL,
+    time LONG NOT NULL,
+    vote_name VARCHAR(200) NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    status INT NOT NULL DEFAULT(0)
+);
+
+CREATE TABLE vote_column(
+    column_id INT PRIMARY KEY AUTO_INCREMENT,
+    vote_id INT NOT NULL,
+    column_name VARCHAR(200) NOT NULL,
+    FOREIGN KEY(vote_id) REFERENCES vote(vote_id)
+);
+
+CREATE TABLE vote_user(
+    vote_user_id INT PRIMARY KEY AUTO_INCREMENT,
+    column_id INT NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    FOREIGN KEY(column_id) REFERENCES vote_column(column_id)
+);
+
+
 ```
 
 ### User
@@ -25,10 +49,4 @@ CREATE TABLE user(
     name VARCHAR(30) NOT NULL
 );
 
-```
-
-### Vote Redis
-
-```
-docker run --name voteRedis -d -p 6379:6379 redis
 ```

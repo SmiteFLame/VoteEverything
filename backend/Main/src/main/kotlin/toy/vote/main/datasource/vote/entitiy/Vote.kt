@@ -1,16 +1,27 @@
 package toy.vote.main.datasource.vote.entitiy
 
-import org.springframework.data.redis.core.RedisHash
+import toy.vote.main.enumclass.VoteStatus
 import java.sql.Timestamp
+import javax.persistence.Column
+import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
-@RedisHash("vote")
+@Table(name = "vote")
+@Entity
 data class Vote(
     @Id
-    var id: String? = null,
+    @Column(name = "vote_id")
+    var voteId: Int? = null,
+
     val email: String,
+
     val time: Long,
-    val name: String,
+
+    @Column(name = "vote_name")
+    val voteName: String,
+
+    val status: VoteStatus
 ) {
     var startTime: Timestamp? = null
 }
