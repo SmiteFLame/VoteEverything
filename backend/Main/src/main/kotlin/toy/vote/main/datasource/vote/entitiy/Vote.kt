@@ -1,7 +1,9 @@
 package toy.vote.main.datasource.vote.entitiy
 
+import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.enumclass.VoteStatus
 import java.sql.Timestamp
+import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -9,19 +11,31 @@ import javax.persistence.Table
 
 @Table(name = "vote")
 @Entity
-data class Vote(
+class Vote {
     @Id
-    @Column(name = "vote_id")
-    var voteId: Int? = null,
+    @Column(name = "vote_id", nullable = false)
+    val voteId: String = UUID.randomUUID().toString()
 
-    val email: String,
+    @Column(nullable = false)
+    val email: String
 
-    val time: Long,
+    @Column(nullable = false)
+    val time: Long
 
     @Column(name = "vote_name")
-    val voteName: String,
+    val voteName: String
 
+    @Column(nullable = false)
     val status: VoteStatus
-) {
+
+    @Column(name = "start_time")
     var startTime: Timestamp? = null
+
+    constructor(voteInput: VoteInput) {
+        this.email = voteInput.email
+        this.time = voteInput.time
+        this.voteName = voteInput.voteName
+        this.status = VoteStatus.NORMAL
+        this.startTime = Timestamp(System.currentTimeMillis())
+    }
 }
