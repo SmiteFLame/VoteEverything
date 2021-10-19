@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
@@ -46,11 +47,14 @@ class VoteController {
 
     @GetMapping("/name/{name}")
     fun selectVoteByName(@PathVariable name: String): ResponseEntity<Vote> {
-        return ResponseEntity<Vote>(voteService.selectVoteByName(name), HttpStatus.OK)
+        return ResponseEntity<Vote>(voteService.selectVoteByVoteName(name), HttpStatus.OK)
     }
 
-    @GetMapping("{name}")
-    fun selectVotes(@PathVariable name: String): ResponseEntity<List<Vote>> {
-        return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(name), HttpStatus.OK)
+    @GetMapping("{word}")
+    fun selectVotes(@PathVariable word: String, @RequestParam("id-type", defaultValue = "vote_id") idType: String): ResponseEntity<List<Vote>> {
+        if(idType == "name"){
+            return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
+        }
+        return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word), HttpStatus.OK)
     }
 }

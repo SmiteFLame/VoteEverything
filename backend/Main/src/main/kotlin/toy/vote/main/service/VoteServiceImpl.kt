@@ -19,7 +19,7 @@ class VoteServiceImpl : VoteService {
     @Autowired
     lateinit var voteColumnRepository: VoteColumnRepository
 
-    override fun selectVoteByName(name: String): Vote {
+    override fun selectVoteByVoteName(name: String): Vote {
         return voteRepository.findVoteByVoteName(name) ?: throw VoteException.NullVoteException()
     }
 
