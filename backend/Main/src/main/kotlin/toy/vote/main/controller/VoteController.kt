@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import toy.vote.main.datasource.user.repository.UserRepository
-import toy.vote.main.datasource.util.UserInput
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
 import toy.vote.main.datasource.vote.entitiy.Vote
 import toy.vote.main.datasource.vote.entitiy.VoteColumn
+import toy.vote.main.datasource.vote.entitiy.VoteUser
 import toy.vote.main.datasource.vote.repository.VoteColumnRepository
 import toy.vote.main.datasource.vote.repository.VoteRepository
 import toy.vote.main.datasource.vote.util.VoteInput
@@ -94,11 +94,11 @@ class VoteController {
     /**
      * 사용자 개인 투표
      */
-    @PostMapping("/{vote_id}")
-    fun insertVoteColumn(@PathVariable vote_id: String, @RequestParam userInput: UserInput): ResponseEntity<Response> {
-        if (userRepository.findUserByEmail(userInput.email) == null) {
+    @PostMapping("/user")
+    fun insertVoteColumn(@RequestBody voteUser: VoteUser): ResponseEntity<Response> {
+        if (userRepository.findUserByEmail(voteUser.email) == null) {
             throw UserException.NullUserException()
         }
-        return ResponseEntity<Response>(voteService.insertVoteColumn(vote_id, userInput), HttpStatus.OK)
+        return ResponseEntity<Response>(voteService.insertVoteColumn(voteUser), HttpStatus.OK)
     }
 }

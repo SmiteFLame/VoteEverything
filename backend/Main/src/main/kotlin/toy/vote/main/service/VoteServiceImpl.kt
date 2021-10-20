@@ -2,7 +2,6 @@ package toy.vote.main.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import toy.vote.main.datasource.util.UserInput
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.VoteException
 import toy.vote.main.datasource.vote.entitiy.Vote
@@ -37,18 +36,15 @@ class VoteServiceImpl : VoteService {
         return Response.SUCCESS
     }
 
-    override fun insertVoteColumn(vote_id: String, userInput: UserInput): Response {
-        if (voteRepository.findVoteByVoteId(vote_id) == null) {
-            throw VoteException.NullVoteException()
-        }
-        if (voteColumnRepository.findVoteColumnByColumnId(userInput.columnId) == null) {
+    override fun insertVoteColumn(voteUser: VoteUser): Response {
+        if (voteColumnRepository.findVoteColumnByColumnId(voteUser.columnId) == null) {
             throw VoteException.NullVoteColumnException()
         }
-        if (voteUserRepository.findVoteUserByColumnIdAndEmail(userInput.columnId, userInput.email) != null) {
+        if (voteUserRepository.findVoteUserByColumnIdAndEmail(voteUser.columnId, voteUser.email) != null) {
             throw VoteException.DuplicationVoteUserException()
         }
 
-        voteUserRepository.save(VoteUser(userInput.columnId, userInput.email))
+        voteUserRepository.save(voteUser)
 
         return Response.SUCCESS
     }
