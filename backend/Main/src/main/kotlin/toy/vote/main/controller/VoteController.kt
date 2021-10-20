@@ -16,13 +16,15 @@ import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
 import toy.vote.main.datasource.vote.entitiy.Vote
+import toy.vote.main.datasource.vote.entitiy.VoteColumn
+import toy.vote.main.datasource.vote.repository.VoteColumnRepository
 import toy.vote.main.datasource.vote.repository.VoteRepository
 import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.service.UserService
 import toy.vote.main.service.VoteService
 
 @RestController
-@RequestMapping("/vote")
+@RequestMapping("/votes")
 class VoteController {
     @Autowired
     lateinit var voteService: VoteService
@@ -35,6 +37,44 @@ class VoteController {
 
     @Autowired
     lateinit var voteRepository: VoteRepository
+
+    @Autowired
+    lateinit var voteColumnRepository: VoteColumnRepository
+
+    /**
+     * 투표 전체 조회
+     */
+    @GetMapping("{word}")
+    fun selectVotes(
+        @PathVariable word: String,
+        @RequestParam("id-type", defaultValue = "vote_id") idType: String
+    ): ResponseEntity<List<Vote>> {
+        if (idType == "name") {
+            return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
+        }
+        return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word), HttpStatus.OK)
+    }
+
+
+    /**
+     * 투표 단일 조회
+     */
+    @GetMapping("/name/{name}")
+    fun selectVoteByName(@PathVariable name: String): ResponseEntity<Vote> {
+        return ResponseEntity<Vote>(voteService.selectVoteByVoteName(name), HttpStatus.OK)
+    }
+
+    /**
+     * 투표 항목 조회
+     */
+    @GetMapping("/columns/{vote_id}")
+    fun selectVoteColumns(@PathVariable vote_id: String): ResponseEntity<List<VoteColumn>> {
+        if (voteRepository.findVoteByVoteId(vote_id) == null) {
+            throw VoteException.NullVoteException()
+        }
+        return ResponseEntity<List<VoteColumn>>(voteColumnRepository.findVoteColumnsByVoteId(vote_id), HttpStatus.OK)
+    }
+
 
     /**
      * 새로운 투표 추가
@@ -50,27 +90,6 @@ class VoteController {
         return ResponseEntity<Response>(voteService.insertVote(voteInput), HttpStatus.OK)
     }
 
-    /**
-     * 투표 단일 조회
-     */
-    @GetMapping("/name/{name}")
-    fun selectVoteByName(@PathVariable name: String): ResponseEntity<Vote> {
-        return ResponseEntity<Vote>(voteService.selectVoteByVoteName(name), HttpStatus.OK)
-    }
-
-    /**
-     * 투표 전체 조회
-     */
-    @GetMapping("{word}")
-    fun selectVotes(
-        @PathVariable word: String,
-        @RequestParam("id-type", defaultValue = "vote_id") idType: String
-    ): ResponseEntity<List<Vote>> {
-        if (idType == "name") {
-            return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
-        }
-        return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word), HttpStatus.OK)
-    }
 
     /**
      * 사용자 개인 투표
