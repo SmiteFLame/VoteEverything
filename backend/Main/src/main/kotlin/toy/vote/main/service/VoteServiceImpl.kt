@@ -10,7 +10,10 @@ import toy.vote.main.datasource.vote.entitiy.VoteUser
 import toy.vote.main.datasource.vote.repository.VoteColumnRepository
 import toy.vote.main.datasource.vote.repository.VoteRepository
 import toy.vote.main.datasource.vote.repository.VoteUserRepository
+import toy.vote.main.datasource.vote.util.VoteColumnOutput
 import toy.vote.main.datasource.vote.util.VoteInput
+import toy.vote.main.datasource.vote.util.VoteOutput
+import java.util.*
 
 @Service
 class VoteServiceImpl : VoteService {
@@ -24,8 +27,14 @@ class VoteServiceImpl : VoteService {
     @Autowired
     lateinit var voteUserRepository: VoteUserRepository
 
-    override fun selectVoteByVoteName(name: String): Vote {
-        return voteRepository.findVoteByVoteName(name) ?: throw VoteException.NullVoteException()
+    override fun selectVoteByVoteName(name: String): VoteOutput {
+        val vote = voteRepository.findVoteByVoteName(name) ?: throw VoteException.NullVoteException()
+        val voteColumnOutPutList = LinkedList<VoteColumnOutput>()
+        voteColumnRepository.findVoteColumnsByVoteId(vote.voteId).forEach { voteColumn ->
+            val voteUserList = voteUserRepository.findVoteUsersByColumnId(voteColumn.columnId)
+            voteColumnOutPutList.add(VoteColumnOutput(voteColumn, voteUserList))
+        }
+        return VoteOutput(vote, voteColumnOutPutList)
     }
 
     override fun insertVote(voteInput: VoteInput): Response {

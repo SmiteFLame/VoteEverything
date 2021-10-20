@@ -5,4 +5,6 @@ import toy.vote.main.datasource.vote.entitiy.VoteUser
 
 interface VoteUserRepository : JpaRepository<VoteUser, String> {
     fun findVoteUserByColumnIdAndEmail(columnId: String, email: String): VoteUser?
+
+    fun findVoteUsersByColumnId(columnId: String): List<VoteUser>
 }

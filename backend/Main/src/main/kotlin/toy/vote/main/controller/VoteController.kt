@@ -20,6 +20,7 @@ import toy.vote.main.datasource.vote.entitiy.VoteUser
 import toy.vote.main.datasource.vote.repository.VoteColumnRepository
 import toy.vote.main.datasource.vote.repository.VoteRepository
 import toy.vote.main.datasource.vote.util.VoteInput
+import toy.vote.main.datasource.vote.util.VoteOutput
 import toy.vote.main.service.UserService
 import toy.vote.main.service.VoteService
 
@@ -60,8 +61,8 @@ class VoteController {
      * 투표 단일 조회
      */
     @GetMapping("/name/{name}")
-    fun selectVoteByName(@PathVariable name: String): ResponseEntity<Vote> {
-        return ResponseEntity<Vote>(voteService.selectVoteByVoteName(name), HttpStatus.OK)
+    fun selectVoteByName(@PathVariable name: String): ResponseEntity<VoteOutput> {
+        return ResponseEntity<VoteOutput>(voteService.selectVoteByVoteName(name), HttpStatus.OK)
     }
 
     /**
