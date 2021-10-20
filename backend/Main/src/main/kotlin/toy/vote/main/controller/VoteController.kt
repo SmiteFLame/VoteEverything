@@ -19,6 +19,7 @@ import toy.vote.main.datasource.vote.entitiy.VoteColumn
 import toy.vote.main.datasource.vote.entitiy.VoteUser
 import toy.vote.main.datasource.vote.repository.VoteColumnRepository
 import toy.vote.main.datasource.vote.repository.VoteRepository
+import toy.vote.main.datasource.vote.util.VoteColumnOutput
 import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.datasource.vote.util.VoteOutput
 import toy.vote.main.service.UserService
@@ -69,11 +70,11 @@ class VoteController {
      * 투표 항목 조회
      */
     @GetMapping("/columns/{vote_id}")
-    fun selectVoteColumns(@PathVariable vote_id: String): ResponseEntity<List<VoteColumn>> {
+    fun selectVoteColumns(@PathVariable vote_id: String): ResponseEntity<List<VoteColumnOutput>> {
         if (voteRepository.findVoteByVoteId(vote_id) == null) {
             throw VoteException.NullVoteException()
         }
-        return ResponseEntity<List<VoteColumn>>(voteColumnRepository.findVoteColumnsByVoteId(vote_id), HttpStatus.OK)
+        return ResponseEntity<List<VoteColumnOutput>>(voteService.selectVoteColumnsByVoteId(vote_id), HttpStatus.OK)
     }
 
 

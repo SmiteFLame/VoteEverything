@@ -29,18 +29,22 @@ class VoteServiceImpl : VoteService {
 
     override fun selectVoteByVoteName(name: String): VoteOutput {
         val vote = voteRepository.findVoteByVoteName(name) ?: throw VoteException.NullVoteException()
+        return VoteOutput(vote, selectVoteColumnsByVoteId(vote.voteId))
+    }
+
+    override fun selectVoteColumnsByVoteId(vote_id: String): List<VoteColumnOutput> {
         val voteColumnOutPutList = LinkedList<VoteColumnOutput>()
-        voteColumnRepository.findVoteColumnsByVoteId(vote.voteId).forEach { voteColumn ->
+        voteColumnRepository.findVoteColumnsByVoteId(vote_id).forEach { voteColumn ->
             val voteUserList = voteUserRepository.findVoteUsersByColumnId(voteColumn.columnId)
             voteColumnOutPutList.add(VoteColumnOutput(voteColumn, voteUserList))
         }
-        return VoteOutput(vote, voteColumnOutPutList)
+        return voteColumnOutPutList
     }
 
     override fun insertVote(voteInput: VoteInput): Response {
         val vote = voteRepository.save(Vote(voteInput))
         voteInput.voteColumn.forEach { voteColumn ->
-            voteColumnRepository.save(VoteColumn(voteColumn.columnName, vote.voteId!!))
+            voteColumnRepository.save(VoteColumn(voteColumn.columnName, vote.voteId))
         }
         return Response.SUCCESS
     }
