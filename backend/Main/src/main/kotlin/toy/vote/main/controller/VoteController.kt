@@ -1,7 +1,6 @@
 package toy.vote.main.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +14,6 @@ import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
 import toy.vote.main.datasource.vote.entitiy.Vote
-import toy.vote.main.datasource.vote.entitiy.VoteColumn
 import toy.vote.main.datasource.vote.repository.VoteRepository
 import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.service.UserService
@@ -39,7 +37,6 @@ class VoteController {
             throw VoteException.NullVoteException()
         }
 
-
         userService.selectUserByEmail(voteInput.email) ?: throw UserException.NullUserException()
 
         return ResponseEntity<Response>(voteService.insertVote(voteInput), HttpStatus.OK)
@@ -51,8 +48,11 @@ class VoteController {
     }
 
     @GetMapping("{word}")
-    fun selectVotes(@PathVariable word: String, @RequestParam("id-type", defaultValue = "vote_id") idType: String): ResponseEntity<List<Vote>> {
-        if(idType == "name"){
+    fun selectVotes(
+        @PathVariable word: String,
+        @RequestParam("id-type", defaultValue = "vote_id") idType: String
+    ): ResponseEntity<List<Vote>> {
+        if (idType == "name") {
             return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
         }
         return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word), HttpStatus.OK)
