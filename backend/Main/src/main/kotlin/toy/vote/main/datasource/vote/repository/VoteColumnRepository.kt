@@ -5,4 +5,8 @@ import org.springframework.stereotype.Repository
 import toy.vote.main.datasource.vote.entitiy.VoteColumn
 
 @Repository
-interface VoteColumnRepository : JpaRepository<VoteColumn, String>
+interface VoteColumnRepository : JpaRepository<VoteColumn, String> {
+    fun findVoteColumnByColumnId(columnId: String): VoteColumn?
+
+    fun findVoteColumnsByVoteId(voteId: String): List<VoteColumn>
+}

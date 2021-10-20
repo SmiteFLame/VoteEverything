@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import toy.vote.main.datasource.user.repository.UserRepository
+import toy.vote.main.datasource.util.UserInput
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
@@ -29,8 +31,14 @@ class VoteController {
     lateinit var userService: UserService
 
     @Autowired
+    lateinit var userRepository: UserRepository
+
+    @Autowired
     lateinit var voteRepository: VoteRepository
 
+    /**
+     * 새로운 투표 추가
+     */
     @PostMapping()
     fun insertVote(@RequestBody voteInput: VoteInput?): ResponseEntity<Response> {
         if (voteInput == null) {
@@ -42,11 +50,17 @@ class VoteController {
         return ResponseEntity<Response>(voteService.insertVote(voteInput), HttpStatus.OK)
     }
 
+    /**
+     * 투표 단일 조회
+     */
     @GetMapping("/name/{name}")
     fun selectVoteByName(@PathVariable name: String): ResponseEntity<Vote> {
         return ResponseEntity<Vote>(voteService.selectVoteByVoteName(name), HttpStatus.OK)
     }
 
+    /**
+     * 투표 전체 조회
+     */
     @GetMapping("{word}")
     fun selectVotes(
         @PathVariable word: String,
@@ -56,5 +70,16 @@ class VoteController {
             return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
         }
         return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word), HttpStatus.OK)
+    }
+
+    /**
+     * 사용자 개인 투표
+     */
+    @PostMapping("/{vote_id}")
+    fun insertVoteColumn(@PathVariable vote_id: String, @RequestParam userInput: UserInput): ResponseEntity<Response> {
+        if (userRepository.findUserByEmail(userInput.email) == null) {
+            throw UserException.NullUserException()
+        }
+        return ResponseEntity<Response>(voteService.insertVoteColumn(vote_id, userInput), HttpStatus.OK)
     }
 }

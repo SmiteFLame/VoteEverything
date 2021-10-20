@@ -11,7 +11,7 @@ import javax.persistence.Table
 class VoteUser {
     @Id
     @Column(name = "vote_user_id")
-    var voteUserID: String = UUID.randomUUID().toString()
+    var voteUserId: String = UUID.randomUUID().toString()
 
     @Column(name = "column_id")
     val columnId: String
