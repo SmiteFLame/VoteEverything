@@ -2,6 +2,7 @@ package toy.vote.main.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.VoteException
 import toy.vote.main.datasource.vote.entitiy.Vote
@@ -41,6 +42,7 @@ class VoteServiceImpl : VoteService {
         return voteColumnOutPutList
     }
 
+    @Transactional(value = "voteTransactionManager")
     override fun insertVote(voteInput: VoteInput): Response {
         val vote = voteRepository.save(Vote(voteInput))
         voteInput.voteColumn.forEach { voteColumn ->
@@ -49,6 +51,7 @@ class VoteServiceImpl : VoteService {
         return Response.SUCCESS
     }
 
+    @Transactional(value = "voteTransactionManager")
     override fun insertVoteColumn(voteUser: VoteUser): Response {
         if (voteColumnRepository.findVoteColumnByColumnId(voteUser.columnId) == null) {
             throw VoteException.NullVoteColumnException()
