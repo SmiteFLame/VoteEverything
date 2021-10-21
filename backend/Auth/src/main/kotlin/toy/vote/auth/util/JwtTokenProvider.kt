@@ -1,9 +1,8 @@
 package toy.vote.auth.util
 
-import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import java.util.*
+import java.util.Date
 
 class JwtTokenProvider {
     companion object {

@@ -1,7 +1,5 @@
 package toy.vote.auth.service
 
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -10,7 +8,7 @@ import toy.vote.auth.datasource.user.repository.UserRepository
 import toy.vote.auth.datasource.user.util.UserInput
 import toy.vote.auth.exception.UserException
 import toy.vote.auth.util.JwtTokenProvider
-import java.util.*
+import java.util.UUID
 
 @Service
 class UserServiceImpl : UserService {

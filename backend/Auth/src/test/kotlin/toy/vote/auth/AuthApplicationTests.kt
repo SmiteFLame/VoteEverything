@@ -9,5 +9,4 @@ class AuthApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }
