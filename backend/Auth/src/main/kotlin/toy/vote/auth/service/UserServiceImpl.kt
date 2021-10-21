@@ -1,11 +1,15 @@
 package toy.vote.auth.service
 
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import toy.vote.auth.datasource.user.entity.User
 import toy.vote.auth.datasource.user.repository.UserRepository
+import toy.vote.auth.datasource.user.util.UserInput
 import toy.vote.auth.exception.UserException
+import toy.vote.auth.util.JwtTokenProvider
 import java.util.*
 
 @Service
@@ -24,13 +28,11 @@ class UserServiceImpl : UserService {
         return "SUCCESS"
     }
 
-    override fun loginUser(email: String, password: String): String {
-        val user = userRepository.findUserByEmail(email) ?: throw UserException.NullUserException()
-        if(!passwordEncoder.matches(password, user.password)){
-            throw UserException.PasswordException()
+    override fun loginUser(userInput: UserInput): String {
+        val user = userRepository.findUserByEmail(userInput.email) ?: throw UserException.NullUserException()
+        if (!passwordEncoder.matches(userInput.password, user.password)) {
+            throw UserException.WrongPasswordException()
         }
-        return "TOKEN"
+        return JwtTokenProvider.getToken(user.ndi)
     }
-
-
 }
