@@ -33,7 +33,7 @@ class VoteServiceImpl : VoteService {
         return VoteOutput(vote, selectVoteColumnsByVoteId(vote.voteId))
     }
 
-    override fun selectVoteColumnsByVoteId(vote_id: String): List<VoteColumnOutput> {
+    override fun selectVoteColumnsByVoteId(vote_id: Int): List<VoteColumnOutput> {
         val voteColumnOutPutList = LinkedList<VoteColumnOutput>()
         voteColumnRepository.findVoteColumnsByVoteId(vote_id).forEach { voteColumn ->
             val voteUserList = voteUserRepository.findVoteUsersByColumnId(voteColumn.columnId)

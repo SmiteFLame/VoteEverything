@@ -54,7 +54,7 @@ class VoteController {
         if (idType == "name") {
             return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
         }
-        return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word), HttpStatus.OK)
+        return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word.toInt()), HttpStatus.OK)
     }
 
 
@@ -70,7 +70,7 @@ class VoteController {
      * 투표 항목 조회
      */
     @GetMapping("/columns/{vote_id}")
-    fun selectVoteColumns(@PathVariable vote_id: String): ResponseEntity<List<VoteColumnOutput>> {
+    fun selectVoteColumns(@PathVariable vote_id: Int): ResponseEntity<List<VoteColumnOutput>> {
         if (voteRepository.findVoteByVoteId(vote_id) == null) {
             throw VoteException.NullVoteException()
         }

@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import toy.vote.main.datasource.vote.entitiy.VoteUser
 
 interface VoteUserRepository : JpaRepository<VoteUser, String> {
-    fun findVoteUserByColumnIdAndEmail(columnId: String, email: String): VoteUser?
+    fun findVoteUserByColumnIdAndEmail(columnId: Int, email: String): VoteUser?
 
-    fun findVoteUsersByColumnId(columnId: String): List<VoteUser>
+    fun findVoteUsersByColumnId(columnId: Int): List<VoteUser>
 }

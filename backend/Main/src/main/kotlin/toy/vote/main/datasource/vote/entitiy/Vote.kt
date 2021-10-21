@@ -3,9 +3,10 @@ package toy.vote.main.datasource.vote.entitiy
 import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.enumclass.VoteStatus
 import java.sql.Timestamp
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
 
@@ -14,7 +15,8 @@ import javax.persistence.Table
 class Vote {
     @Id
     @Column(name = "vote_id", nullable = false)
-    val voteId: String = UUID.randomUUID().toString()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val voteId: Int = -1
 
     @Column(nullable = false)
     val email: String

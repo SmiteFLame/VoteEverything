@@ -8,7 +8,7 @@ import toy.vote.main.datasource.vote.util.VoteOutput
 
 interface VoteService {
     fun selectVoteByVoteName(name: String): VoteOutput
-    fun selectVoteColumnsByVoteId(vote_id: String): List<VoteColumnOutput>
+    fun selectVoteColumnsByVoteId(vote_id: Int): List<VoteColumnOutput>
     fun insertVote(voteInput: VoteInput): Response
     fun insertVoteColumn(voteUser: VoteUser): Response
 }

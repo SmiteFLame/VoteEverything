@@ -1,8 +1,9 @@
 package toy.vote.main.datasource.vote.entitiy
 
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
 
@@ -11,15 +12,16 @@ import javax.persistence.Table
 class VoteUser {
     @Id
     @Column(name = "vote_user_id")
-    var voteUserId: String = UUID.randomUUID().toString()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var voteUserId: Int = -1
 
     @Column(name = "column_id")
-    val columnId: String
+    val columnId: Int
 
     @Column
     val email: String
 
-    constructor(columnId: String, email: String) {
+    constructor(columnId: Int, email: String) {
         this.columnId = columnId
         this.email = email
     }
