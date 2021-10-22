@@ -19,18 +19,17 @@ class UserServiceImpl : UserService {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
-    override fun insertUser(user: User): String {
+    override fun insertUser(user: User): User {
         user.ndi = UUID.randomUUID().toString()
         user.password = passwordEncoder.encode(user.password)
-        userRepository.save(user)
-        return "SUCCESS"
+        return userRepository.save(user)
     }
 
-    override fun loginUser(userInput: UserInput): String {
+    override fun loginUser(userInput: UserInput): User {
         val user = userRepository.findUserByEmail(userInput.email) ?: throw UserException.NullUserException()
         if (!passwordEncoder.matches(userInput.password, user.password)) {
             throw UserException.WrongPasswordException()
         }
-        return JwtTokenProvider.getToken(user.ndi)
+        return user
     }
 }

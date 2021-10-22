@@ -5,14 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    storage: window.sessionStorage,
     username: "",
-    userid: "",
   },
   getters: {
     username(state) {
       return state.username;
     },
   },
-  mutations: {},
+  mutations: {
+    setUsername(state, payload) {
+      state.username = payload;
+    },
+  },
   actions: {},
 });

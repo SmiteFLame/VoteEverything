@@ -4,6 +4,6 @@ import toy.vote.auth.datasource.user.entity.User
 import toy.vote.auth.datasource.user.util.UserInput
 
 interface UserService {
-    fun insertUser(user: User): String
-    fun loginUser(userInput: UserInput): String
+    fun insertUser(user: User): User
+    fun loginUser(userInput: UserInput): User
 }

@@ -1,13 +1,10 @@
 <template>
 	<div class="container" align="center">
-		<div class="card col-lg-12" align="center">
-			<div class="row" style="height:600px">
-				<div class="card-header col-sm-6">
-					<br><br>
-					<h2>회원가입</h2>
-					<img src="../../../assets/image/logo.png" style="width:400px; height:180px;  margin-top:100px; margin-bottom:-25px">
-				</div>
+		<div class="card col-lg-12" align="center" style="width:400px; height:600px">
+			<div class="row" style="width:300px; margin: auto">
+                <h2>회원가입</h2>
 				<div class="card-body  col-sm-6" style="margin:auto">
+				    <img src="../../../assets/image/logo.png" style="width:200px; height:90px;  margin-top:-0px; margin-bottom:-25px">
 					<form id="joinform" method="post" action="post">
 						<div class="form-group" align="left">
 							<label for="">아이디</label> <input type="email" class="form-control"
@@ -95,9 +92,6 @@ export default {
           });
       }
     },
-    moveHandler() {
-      this.$router.push("/boardlist");
-    }
   }
 }
 </script>

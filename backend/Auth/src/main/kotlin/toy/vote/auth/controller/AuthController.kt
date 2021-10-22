@@ -28,26 +28,28 @@ class AuthController {
     lateinit var passwordEncoder: PasswordEncoder
 
     @PostMapping("/user")
-    fun insertUser(@RequestBody user: User?): ResponseEntity<String> {
+    fun insertUser(@RequestBody user: User?): ResponseEntity<User> {
         if (user == null) {
             throw UserException.InvalidUserException()
         }
-        return ResponseEntity<String>(userService.insertUser(user), HttpStatus.CREATED)
+        return ResponseEntity<User>(userService.insertUser(user), HttpStatus.CREATED)
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody userInput: UserInput?, response: HttpServletResponse): ResponseEntity<String> {
+    fun login(@RequestBody userInput: UserInput?, response: HttpServletResponse): ResponseEntity<User> {
+        println("${userInput!!.email} ${userInput!!.password}")
         if (userInput == null) {
             throw UserException.InvalidUserException()
         }
 
-        val token = userService.loginUser(userInput)
+        val user = userService.loginUser(userInput)
+        val token = JwtTokenProvider.getToken(user.ndi)
 
         val cookie = Cookie("jwt", token)
         cookie.isHttpOnly = true
         response.addCookie(cookie)
 
-        return ResponseEntity<String>("SUCCESS", HttpStatus.OK)
+        return ResponseEntity<User>(user, HttpStatus.OK)
     }
 
     @PostMapping("/logout")
