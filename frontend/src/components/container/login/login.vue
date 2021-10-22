@@ -49,7 +49,6 @@ export default {
 			this.info = info;
 		},
 		login(){
-			console.log(this.$store.email)
 			let err = true;
 			let msg = "";
 			!this.email && ((msg = "작성자를 입력해 주세요"), (err = false), this.$refs.email.focus());
