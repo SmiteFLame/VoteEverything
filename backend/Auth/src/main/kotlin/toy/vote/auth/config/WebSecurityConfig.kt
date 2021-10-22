@@ -28,7 +28,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         web?.ignoring()?.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
     }
 
-
     @Override
     override fun configure(http: HttpSecurity) {
         // 비밀번호 관련

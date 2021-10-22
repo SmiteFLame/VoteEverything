@@ -1,7 +1,5 @@
 package toy.vote.auth.controller
 
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -11,14 +9,13 @@ import toy.vote.auth.exception.UserException
 import toy.vote.auth.datasource.user.entity.User
 import toy.vote.auth.datasource.user.repository.UserRepository
 import toy.vote.auth.datasource.user.util.UserInput
-import toy.vote.auth.enumclass.UserStatus
 import toy.vote.auth.service.UserService
 import toy.vote.auth.util.JwtTokenProvider
-import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 @RestController
+@CrossOrigin(origins = ["*"], maxAge = 6000)
 @RequestMapping("/auth")
 class AuthController {
     @Autowired

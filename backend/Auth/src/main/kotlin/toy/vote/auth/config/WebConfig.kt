@@ -11,7 +11,6 @@ class WebConfig :WebMvcConfigurer{
     override fun addCorsMappings(registry: CorsRegistry) {
         // 어디에서는 매핑이 된다
         registry.addMapping("/**")
-            .allowedOrigins("http://localhost:8888", "http:localhost:8081", "http:localhost:8080")
-            .allowCredentials(true)
+            .allowedOrigins("*")
     }
 }
