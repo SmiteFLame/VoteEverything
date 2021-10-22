@@ -24,11 +24,24 @@
 </template>
 
 <script>
+import axios from "axios";
 import {mapGetters} from "vuex"
 
 export default{
   computed:{
     ...mapGetters(["username"])
-  }
+  },methods:{
+		logout(){
+      axios
+      .post(`http://localhost:8081/auth/logout`)
+      .then(res =>{
+        if(res.status == 200){
+			    alert("로그아웃 완료");
+			    this.$store.commit('setUsername', "");
+			    location.reload();
+        }
+      })
+		}
+	}
 }
 </script>
