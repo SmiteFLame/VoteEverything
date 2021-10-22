@@ -43,14 +43,12 @@ export default {
 		return {
 			userid: "",
 			userpwd: "",
-			token: "",
 			info:""
 		};
 	},
 	methods:{
-		setInfo(status, token, info){
+		setInfo(status, info){
 			this.status = status;
-			this.token = token;
 			this.info = info;
 		},
 		login(){

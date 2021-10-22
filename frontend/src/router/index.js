@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Index from "../index.vue";
 
 import Login from "../components/container/login/login.vue";
+import Join from "../components/container/login/join.vue";
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/join",
+    name: "Join",
+    component: Join,
   },
 ];
 
