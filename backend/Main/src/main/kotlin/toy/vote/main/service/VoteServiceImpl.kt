@@ -1,6 +1,8 @@
 package toy.vote.main.service
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import toy.vote.main.enumclass.Response
@@ -14,6 +16,7 @@ import toy.vote.main.datasource.vote.repository.VoteUserRepository
 import toy.vote.main.datasource.vote.util.VoteColumnOutput
 import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.datasource.vote.util.VoteOutput
+import toy.vote.main.util.OffsetBasedPageRequest
 import java.util.*
 
 @Service
@@ -27,6 +30,10 @@ class VoteServiceImpl : VoteService {
 
     @Autowired
     lateinit var voteUserRepository: VoteUserRepository
+
+    override fun selectVotes(limit: Int, offset: Long): Page<Vote> {
+        return voteRepository.findAll(OffsetBasedPageRequest(limit, offset, Sort.by("voteId")))
+    }
 
     override fun selectVoteByVoteName(name: String): VoteOutput {
         val vote = voteRepository.findVoteByVoteName(name) ?: throw VoteException.NullVoteException()

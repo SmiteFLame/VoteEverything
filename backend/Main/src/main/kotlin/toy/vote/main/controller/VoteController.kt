@@ -1,6 +1,7 @@
 package toy.vote.main.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -43,13 +44,28 @@ class VoteController {
     @Autowired
     lateinit var voteColumnRepository: VoteColumnRepository
 
+    @GetMapping()
+    fun selectVotes(
+        @RequestParam(defaultValue = "10") limit: Int,
+        @RequestParam(defaultValue = "0") offset: Long
+    ) : ResponseEntity<Page<Vote>>{
+        val votes = voteService.selectVotes(limit,offset)
+
+        if(!votes.hasContent()){
+            throw VoteException.NullVoteException()
+        }
+
+        return ResponseEntity<Page<Vote>>(votes, HttpStatus.OK)
+    }
+
+
     /**
-     * 투표 전체 조회
+     * 투표 단어 조회
      */
     @GetMapping("{word}")
-    fun selectVotes(
+    fun selectVotesByWord(
         @PathVariable word: String,
-        @RequestParam("id-type", defaultValue = "vote_id") idType: String
+        @RequestParam("id-type", defaultValue = "vote_id") idType: String,
     ): ResponseEntity<List<Vote>> {
         if (idType == "name") {
             return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteName(word), HttpStatus.OK)
