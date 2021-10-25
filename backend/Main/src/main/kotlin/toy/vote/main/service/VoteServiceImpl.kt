@@ -31,8 +31,15 @@ class VoteServiceImpl : VoteService {
     @Autowired
     lateinit var voteUserRepository: VoteUserRepository
 
-    override fun selectVotes(limit: Int, offset: Long): Page<Vote> {
-        return voteRepository.findAll(OffsetBasedPageRequest(limit, offset, Sort.by("voteId")))
+    override fun selectVotes(limit: Int, offset: Long): List<VoteOutput> {
+        val votes = voteRepository.findAll(OffsetBasedPageRequest(limit, offset, Sort.by("voteId")))
+
+        val voteOutputs = ArrayList<VoteOutput>()
+        votes.forEach { vote ->
+            voteOutputs.add(VoteOutput(vote, selectVoteColumnsByVoteId(vote.voteId)))
+        }
+
+        return voteOutputs
     }
 
     override fun selectVoteByVoteName(name: String): VoteOutput {

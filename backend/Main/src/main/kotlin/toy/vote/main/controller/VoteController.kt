@@ -48,14 +48,14 @@ class VoteController {
     fun selectVotes(
         @RequestParam(defaultValue = "10") limit: Int,
         @RequestParam(defaultValue = "0") offset: Long
-    ) : ResponseEntity<Page<Vote>>{
-        val votes = voteService.selectVotes(limit,offset)
+    ) : ResponseEntity<List<VoteOutput>>{
+        val voteOutputs = voteService.selectVotes(limit,offset)
 
-        if(!votes.hasContent()){
+        if(voteOutputs.isEmpty()){
             throw VoteException.NullVoteException()
         }
 
-        return ResponseEntity<Page<Vote>>(votes, HttpStatus.OK)
+        return ResponseEntity<List<VoteOutput>>(voteOutputs, HttpStatus.OK)
     }
 
 
