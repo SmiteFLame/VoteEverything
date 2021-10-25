@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Index from "../index.vue";
+import Index from "../components/container/index.vue";
 
 import Login from "../components/container/login/login.vue";
 import Join from "../components/container/login/join.vue";
