@@ -1,7 +1,6 @@
 package toy.vote.main.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import toy.vote.main.cache.Cache
+import toy.vote.main.cache.CacheCollection
 import toy.vote.main.datasource.user.repository.UserRepository
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
 import toy.vote.main.datasource.vote.entitiy.Vote
-import toy.vote.main.datasource.vote.entitiy.VoteColumn
 import toy.vote.main.datasource.vote.entitiy.VoteUser
 import toy.vote.main.datasource.vote.repository.VoteColumnRepository
 import toy.vote.main.datasource.vote.repository.VoteRepository
@@ -25,6 +25,9 @@ import toy.vote.main.datasource.vote.util.VoteInput
 import toy.vote.main.datasource.vote.util.VoteOutput
 import toy.vote.main.service.UserService
 import toy.vote.main.service.VoteService
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.util.*
 
 @RestController
 @RequestMapping("/votes")
@@ -63,14 +66,21 @@ class VoteController {
 
     /**
      * 투표 Best N 조회
+     * Cache 기능 추가
      */
     @GetMapping("hottest-votes/{number}")
     fun selectBest(@PathVariable number: Int): ResponseEntity<List<VoteOutput>> {
+        if(CacheCollection.voteOutputBest != null && CacheCollection.voteOutputBest!!.check(LocalDateTime.now())){
+            return ResponseEntity<List<VoteOutput>>(CacheCollection.voteOutputBest!!.data, HttpStatus.OK)
+        }
+
         val voteOutputs = voteService.selectBestVotes(number)
 
         if (voteOutputs.isEmpty()) {
             throw VoteException.NullVoteException()
         }
+
+        CacheCollection.voteOutputBest = Cache<List<VoteOutput>>(voteOutputs, LocalDateTime.now())
 
         return ResponseEntity<List<VoteOutput>>(voteOutputs, HttpStatus.OK)
     }
