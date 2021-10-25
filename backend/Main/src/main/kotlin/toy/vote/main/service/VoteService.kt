@@ -1,7 +1,5 @@
 package toy.vote.main.service
 
-import org.springframework.data.domain.Page
-import toy.vote.main.datasource.vote.entitiy.Vote
 import toy.vote.main.enumclass.Response
 import toy.vote.main.datasource.vote.entitiy.VoteUser
 import toy.vote.main.datasource.vote.util.VoteColumnOutput

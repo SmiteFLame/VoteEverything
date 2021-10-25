@@ -26,8 +26,6 @@ import toy.vote.main.datasource.vote.util.VoteOutput
 import toy.vote.main.service.UserService
 import toy.vote.main.service.VoteService
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.*
 
 @RestController
 @RequestMapping("/votes")
@@ -70,7 +68,7 @@ class VoteController {
      */
     @GetMapping("hottest-votes/{number}")
     fun selectBest(@PathVariable number: Int): ResponseEntity<List<VoteOutput>> {
-        if(CacheCollection.voteOutputBest != null && CacheCollection.voteOutputBest!!.check(LocalDateTime.now())){
+        if (CacheCollection.voteOutputBest != null && CacheCollection.voteOutputBest!!.check(LocalDateTime.now())) {
             return ResponseEntity<List<VoteOutput>>(CacheCollection.voteOutputBest!!.data, HttpStatus.OK)
         }
 
@@ -85,7 +83,6 @@ class VoteController {
         return ResponseEntity<List<VoteOutput>>(voteOutputs, HttpStatus.OK)
     }
 
-
     /**
      * 투표 단어 조회
      */
@@ -99,7 +96,6 @@ class VoteController {
         }
         return ResponseEntity<List<Vote>>(voteRepository.findVotesByVoteId(word.toInt()), HttpStatus.OK)
     }
-
 
     /**
      * 투표 단일 조회
@@ -120,7 +116,6 @@ class VoteController {
         return ResponseEntity<List<VoteColumnOutput>>(voteService.selectVoteColumnsByVoteId(vote_id), HttpStatus.OK)
     }
 
-
     /**
      * 새로운 투표 추가
      */
@@ -134,7 +129,6 @@ class VoteController {
 
         return ResponseEntity<Response>(voteService.insertVote(voteInput), HttpStatus.OK)
     }
-
 
     /**
      * 사용자 개인 투표

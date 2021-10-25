@@ -48,7 +48,6 @@ export default{
 			.get(`http://localhost:8888/votes/hottest-votes/3`)
 			.then((res) =>{
 				this.votesBest = res.data
-				console.log(this.votes)
 			})
 		}
 	}, created(){
