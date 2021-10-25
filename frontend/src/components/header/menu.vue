@@ -8,6 +8,9 @@
       </button>
       <div class="collapse navbar-collapse" id="mynavbar">
         <ul class="navbar-nav me-auto">
+          <li class="nav-item"><router-link class="nav-link" to="/vote">투표 전체</router-link></li>
+				  <li class="nav-item"><router-link class="nav-link" to="/makeVote">투표 만들기</router-link></li>
+				  <li class="nav-item"><router-link class="nav-link" to="/community">커뮤니티</router-link></li>
         </ul>
         <ul class="navbar-nav me-right">
           <li class="nav-item"><router-link class="nav-link" to="/login" v-if="username == ''">로그인</router-link></li>
