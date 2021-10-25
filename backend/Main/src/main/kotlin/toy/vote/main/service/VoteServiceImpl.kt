@@ -42,6 +42,31 @@ class VoteServiceImpl : VoteService {
         return voteOutputs
     }
 
+    override fun selectBestVotes(number: Int): List<VoteOutput> {
+        val votes = voteRepository.findAll()
+        val pQueue = PriorityQueue(Comparator<VoteOutput> { o1, o2 ->
+            var o1Sum = 0
+            var o2Sum = 0
+            o1.voteColumnOutputList.forEach { next ->
+                o1Sum += next.voteUserList.size
+            }
+            o2.voteColumnOutputList.forEach { next ->
+                o2Sum += next.voteUserList.size
+            }
+            o2Sum - o1Sum
+        })
+        votes.forEach { vote ->
+            pQueue.offer(VoteOutput(vote, selectVoteColumnsByVoteId(vote.voteId)))
+        }
+        val voteOutputs = ArrayList<VoteOutput>()
+
+        while (voteOutputs.size < number && !pQueue.isEmpty()) {
+            voteOutputs.add(pQueue.poll())
+        }
+
+        return voteOutputs
+    }
+
     override fun selectVoteByVoteName(name: String): VoteOutput {
         val vote = voteRepository.findVoteByVoteName(name) ?: throw VoteException.NullVoteException()
         return VoteOutput(vote, selectVoteColumnsByVoteId(vote.voteId))

@@ -44,14 +44,31 @@ class VoteController {
     @Autowired
     lateinit var voteColumnRepository: VoteColumnRepository
 
-    @GetMapping()
+    /**
+     * 투표 전체 조회
+     */
+    @GetMapping
     fun selectVotes(
         @RequestParam(defaultValue = "10") limit: Int,
         @RequestParam(defaultValue = "0") offset: Long
-    ) : ResponseEntity<List<VoteOutput>>{
-        val voteOutputs = voteService.selectVotes(limit,offset)
+    ): ResponseEntity<List<VoteOutput>> {
+        val voteOutputs = voteService.selectVotes(limit, offset)
 
-        if(voteOutputs.isEmpty()){
+        if (voteOutputs.isEmpty()) {
+            throw VoteException.NullVoteException()
+        }
+
+        return ResponseEntity<List<VoteOutput>>(voteOutputs, HttpStatus.OK)
+    }
+
+    /**
+     * 투표 Best N 조회
+     */
+    @GetMapping("hottest-votes/{number}")
+    fun selectBest(@PathVariable number: Int): ResponseEntity<List<VoteOutput>> {
+        val voteOutputs = voteService.selectBestVotes(number)
+
+        if (voteOutputs.isEmpty()) {
             throw VoteException.NullVoteException()
         }
 
