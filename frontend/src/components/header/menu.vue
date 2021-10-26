@@ -17,7 +17,7 @@
 				  <li class="nav-item"><router-link class="nav-link" to="/join" v-if="username == ''">회원가입</router-link></li>
 				
 				  <li class="nav-item"><a href="#" class="nav-link" @click="logout" v-if="username != ''">로그아웃</a></li>
-				  <li class="nav-item"><router-link class="nav-link" to="/join" v-if="username != ''">{{username}}님 환영합니다</router-link></li>
+				  <li class="nav-item"><a href="#" class="nav-link" @click="test" v-if="username != ''">{{username}}님 환영합니다</a></li>
 
 				  <li class="nav-item"><router-link class="nav-link" to="/member" v-if="username =='admin'"> 회원 관리 </router-link></li>
         </ul>
@@ -32,7 +32,8 @@ import {mapGetters} from "vuex"
 
 export default{
   computed:{
-    ...mapGetters(["username"])
+    ...mapGetters(["username"]),
+    ...mapGetters(["jwt"])
   },methods:{
 		logout(){
       axios
@@ -41,10 +42,18 @@ export default{
         if(res.status == 200){
 			    alert("로그아웃 완료");
 			    this.$store.commit('setUsername', "");
+			    this.$store.commit('setjwt', "");
 			    location.reload();
         }
       })
-		}
+		}, test(){
+      console.log(this.jwt)
+      axios
+      .get(`http://localhost:8081/auth/user/${this.jwt}`)
+      .then(res =>{
+        console.log(res)
+      })
+    }
 	}
 }
 </script>

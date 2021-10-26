@@ -63,9 +63,10 @@ export default {
 				})
           		.then(res => {
 					  if(res.status == 200){
-						  if(res.data.status == "ACTIVE"){
+						  if(res.data.user.status == "ACTIVE"){
 							  alert("로그인 되었습니다.")
-							  this.$store.commit('setUsername', res.data.name)
+							  this.$store.commit('setUsername', res.data.user.name)
+							  this.$store.commit('setjwt',res.data.jwt)
 			    			  this.$router.push('/');
 						  } else{
 							  alert("회원정보가 만료되었습니다.")

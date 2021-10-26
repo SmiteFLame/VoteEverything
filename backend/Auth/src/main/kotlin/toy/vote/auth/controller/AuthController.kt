@@ -9,9 +9,11 @@ import toy.vote.auth.exception.UserException
 import toy.vote.auth.datasource.user.entity.User
 import toy.vote.auth.datasource.user.repository.UserRepository
 import toy.vote.auth.datasource.user.util.UserInput
+import toy.vote.auth.datasource.user.util.UserOutput
 import toy.vote.auth.service.UserService
 import toy.vote.auth.util.JwtTokenProvider
 import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @RestController
@@ -36,8 +38,7 @@ class AuthController {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody userInput: UserInput?, response: HttpServletResponse): ResponseEntity<User> {
-        println("${userInput!!.email} ${userInput!!.password}")
+    fun login(@RequestBody userInput: UserInput?): ResponseEntity<UserOutput> {
         if (userInput == null) {
             throw UserException.InvalidUserException()
         }
@@ -45,11 +46,7 @@ class AuthController {
         val user = userService.loginUser(userInput)
         val token = JwtTokenProvider.getToken(user.ndi)
 
-        val cookie = Cookie("jwt", token)
-        cookie.isHttpOnly = true
-        response.addCookie(cookie)
-
-        return ResponseEntity<User>(user, HttpStatus.OK)
+        return ResponseEntity<UserOutput>(UserOutput(user, token), HttpStatus.OK)
     }
 
     @PostMapping("/logout")
@@ -60,8 +57,9 @@ class AuthController {
         return ResponseEntity<String>("SUCCESS", HttpStatus.OK)
     }
 
-    @GetMapping("user")
-    fun findUser(@CookieValue("jwt") jwt: String?): ResponseEntity<User> {
+    @GetMapping("user/{jwt}")
+    fun findUser(@PathVariable jwt: String?): ResponseEntity<User> {
+        println(jwt)
         try {
             if (jwt == null) {
                 throw UserException.WrongTokenException()
