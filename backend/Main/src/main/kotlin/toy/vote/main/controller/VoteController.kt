@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -116,12 +117,15 @@ class VoteController {
      * 새로운 투표 추가
      */
     @PostMapping()
-    fun insertVote(@RequestBody voteInput: VoteInput?): ResponseEntity<Response> {
+    fun insertVote(@RequestHeader jwt: String?, @RequestBody voteInput: VoteInput?): ResponseEntity<Response> {
         if (voteInput == null) {
             throw VoteException.NullVoteException()
         }
+        if(jwt == null){
+            throw UserException.NotLoginException()
+        }
 
-        userService.selectUserByEmail(voteInput.email) ?: throw UserException.NullUserException()
+        userService.selectUserByJwt(jwt) ?: throw UserException.NullUserException()
 
         return ResponseEntity<Response>(voteService.insertVote(voteInput), HttpStatus.OK)
     }
@@ -130,10 +134,13 @@ class VoteController {
      * 사용자 개인 투표
      */
     @PostMapping("/user")
-    fun insertVoteColumn(@RequestBody voteUser: VoteUser): ResponseEntity<Response> {
-        if (userService.selectUserByEmail(voteUser.email) == null) {
-            throw UserException.NullUserException()
+    fun insertVoteColumn(@RequestHeader jwt: String?, @RequestBody voteUser: VoteUser): ResponseEntity<Response> {
+        if(jwt == null){
+            throw UserException.NotLoginException()
         }
+
+        userService.selectUserByJwt(jwt) ?: throw UserException.NullUserException()
+
         return ResponseEntity<Response>(voteService.insertVoteColumn(voteUser), HttpStatus.OK)
     }
 }

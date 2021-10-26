@@ -59,15 +59,14 @@ class AuthController {
 
     @GetMapping("user")
     fun findUser(@RequestHeader jwt: String?): ResponseEntity<User> {
-        println(jwt)
-        try {
             if (jwt == null) {
+                println("??")
                 throw UserException.WrongTokenException()
             }
-
+            println("CHECK")
+            println(JwtTokenProvider.checkToken(jwt))
+            println("CHECK END")
             return ResponseEntity<User>(userRepository.findUserByNdi(JwtTokenProvider.checkToken(jwt)), HttpStatus.OK)
-        } catch (exception: Exception) {
-            throw UserException.WrongTokenException()
-        }
+
     }
 }

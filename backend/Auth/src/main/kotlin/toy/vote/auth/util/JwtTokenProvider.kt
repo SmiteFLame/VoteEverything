@@ -10,11 +10,12 @@ class JwtTokenProvider {
         fun getToken(key: String): String {
             return Jwts.builder()
                 .setIssuer(key)
-                .setExpiration(Date(System.currentTimeMillis() + 60 * 24 * 1000)) // 1day
+                .setExpiration(Date(System.currentTimeMillis() + 1000L * 60L * 60L * 24L)) // 1day
                 .signWith(SignatureAlgorithm.HS512, authKey).compact()
         }
 
         fun checkToken(token: String): String {
+            println(Jwts.parser().setSigningKey(authKey).parseClaimsJws(token).body)
             return Jwts.parser().setSigningKey(authKey).parseClaimsJws(token).body.issuer
         }
     }

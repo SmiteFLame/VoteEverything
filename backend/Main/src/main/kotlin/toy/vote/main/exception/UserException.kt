@@ -9,6 +9,10 @@ abstract class UserException(message: String) : Exception(message) {
         override var status: HttpStatus = HttpStatus.NOT_FOUND
     }
 
+    class NotLoginException : UserException("로그인 되지 않은 유저입니다.") {
+        override var status: HttpStatus = HttpStatus.BAD_REQUEST
+    }
+
     class InvalidUserException : UserException("입력값이 존재하지 않습니다") {
         override var status: HttpStatus = HttpStatus.BAD_REQUEST
     }

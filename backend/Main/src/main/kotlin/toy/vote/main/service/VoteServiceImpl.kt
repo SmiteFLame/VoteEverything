@@ -81,7 +81,7 @@ class VoteServiceImpl : VoteService {
         return voteColumnOutPutList
     }
 
-    @Transactional(value = "voteTransactionManager")
+    @Transactional
     override fun insertVote(voteInput: VoteInput): Response {
         val vote = voteRepository.save(Vote(voteInput))
         voteInput.voteColumn.forEach { voteColumn ->
@@ -90,7 +90,7 @@ class VoteServiceImpl : VoteService {
         return Response.SUCCESS
     }
 
-    @Transactional(value = "voteTransactionManager")
+    @Transactional
     override fun insertVoteColumn(voteUser: VoteUser): Response {
         if (voteColumnRepository.findVoteColumnByColumnId(voteUser.columnId) == null) {
             throw VoteException.NullVoteColumnException()

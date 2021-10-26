@@ -1,6 +1,12 @@
 package toy.vote.main.enumclass
 
-enum class UserStatus {
+import java.io.Serializable
+
+enum class UserStatus: Serializable {
     ACTIVE,
-    INACTIVE
+    INACTIVE;
+
+    fun getStatus(): String{
+        return this.name
+    }
 }
