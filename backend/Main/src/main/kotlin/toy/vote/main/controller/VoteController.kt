@@ -121,7 +121,7 @@ class VoteController {
         if (voteInput == null) {
             throw VoteException.NullVoteException()
         }
-        if(jwt == null){
+        if (jwt == null) {
             throw UserException.NotLoginException()
         }
 
@@ -135,7 +135,7 @@ class VoteController {
      */
     @PostMapping("/user")
     fun insertVoteColumn(@RequestHeader jwt: String?, @RequestBody voteUser: VoteUser): ResponseEntity<Response> {
-        if(jwt == null){
+        if (jwt == null) {
             throw UserException.NotLoginException()
         }
 

@@ -15,7 +15,6 @@ class JwtTokenProvider {
         }
 
         fun checkToken(token: String): String {
-            println(Jwts.parser().setSigningKey(authKey).parseClaimsJws(token).body)
             return Jwts.parser().setSigningKey(authKey).parseClaimsJws(token).body.issuer
         }
     }

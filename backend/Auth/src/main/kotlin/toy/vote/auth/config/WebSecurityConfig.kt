@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
-    fun getPasswordEncoder() : PasswordEncoder{
+    fun getPasswordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
 
@@ -34,15 +34,15 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         http.cors().disable()
             .csrf().disable()
             .formLogin().disable()
-            .headers().frameOptions().disable();
+            .headers().frameOptions().disable()
         http.csrf().disable().authorizeRequests()
-        // 토큰을 활용하는 경우 모든 요청에 대해서 접근이 가능하도록
+            // 토큰을 활용하는 경우 모든 요청에 대해서 접근이 가능하도록
             .anyRequest().permitAll()
             .and()
-        // 토큰을 활용하면 세션이 필요없으므로 STATELESS로 설정하여 Session을 사용하지 않는다
+            // 토큰을 활용하면 세션이 필요없으므로 STATELESS로 설정하여 Session을 사용하지 않는다
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-        // form 기반의 로그인에 대해 비활성화 한다
+            // form 기반의 로그인에 대해 비활성화 한다
             .formLogin()
             .disable()
     }

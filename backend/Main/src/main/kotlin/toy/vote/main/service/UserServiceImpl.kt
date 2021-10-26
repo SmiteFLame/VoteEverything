@@ -12,7 +12,7 @@ import java.net.http.HttpResponse
 import java.time.Duration
 
 @Service
-class UserServiceImpl :UserService {
+class UserServiceImpl : UserService {
 
     override fun selectUserByJwt(jwt: String): User? {
         try {
@@ -24,18 +24,19 @@ class UserServiceImpl :UserService {
                 .header("jwt", jwt)
                 .build()
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-            if(response.statusCode() == 200){
-                return User(JSONObject(response.body()).getString("ndi"),
+            if (response.statusCode() == 200) {
+                return User(
+                    JSONObject(response.body()).getString("ndi"),
                     JSONObject(response.body()).getString("email"),
                     JSONObject(response.body()).getString("password"),
                     UserStatus.valueOf(JSONObject(response.body()).getString("status")),
                     JSONObject(response.body()).getString("name")
-                    )
-            } else{
+                )
+            } else {
                 throw UserException.NullUserException()
             }
-        } catch (e: Exception){
-          throw UserException.NullUserException()
+        } catch (e: Exception) {
+            throw UserException.NullUserException()
         }
     }
 }
