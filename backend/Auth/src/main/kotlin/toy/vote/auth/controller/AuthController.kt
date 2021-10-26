@@ -57,8 +57,8 @@ class AuthController {
         return ResponseEntity<String>("SUCCESS", HttpStatus.OK)
     }
 
-    @GetMapping("user/{jwt}")
-    fun findUser(@PathVariable jwt: String?): ResponseEntity<User> {
+    @GetMapping("user")
+    fun findUser(@RequestHeader jwt: String?): ResponseEntity<User> {
         println(jwt)
         try {
             if (jwt == null) {

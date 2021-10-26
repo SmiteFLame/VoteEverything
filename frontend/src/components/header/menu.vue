@@ -49,11 +49,13 @@ export default{
 		}, test(){
       console.log(this.jwt)
       axios
-      .get(`http://localhost:8081/auth/user/${this.jwt}`)
+      .get(`http://localhost:8081/auth/user`)
       .then(res =>{
         console.log(res)
       })
     }
+	}, created(){
+    axios.defaults.headers.common['jwt'] = this.jwt
 	}
 }
 </script>
