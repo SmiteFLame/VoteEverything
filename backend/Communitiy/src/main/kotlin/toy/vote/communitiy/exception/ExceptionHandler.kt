@@ -7,6 +7,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ExceptionHandler {
+    @ExceptionHandler
+    fun userExceptionHandler(error: UserException): ResponseEntity<String> {
+        return ResponseEntity<String>(error.message, error.status)
+    }
+
+    @ExceptionHandler
+    fun communityExceptionHandler(error: CommunityException): ResponseEntity<String> {
+        return ResponseEntity<String>(error.message, error.status)
+    }
 
     @ExceptionHandler
     fun exceptionHandler(error: Exception): ResponseEntity<String> {

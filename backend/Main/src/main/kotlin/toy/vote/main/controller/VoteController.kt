@@ -116,7 +116,7 @@ class VoteController {
     /**
      * 새로운 투표 추가
      */
-    @PostMapping()
+    @PostMapping
     fun insertVote(@RequestHeader jwt: String?, @RequestBody voteInput: VoteInput?): ResponseEntity<Response> {
         if (voteInput == null) {
             throw VoteException.NullVoteException()

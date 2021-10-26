@@ -1,4 +1,4 @@
-package toy.vote.main.enumclass
+package toy.vote.communitiy.enumclass
 
 enum class UserStatus{
     ACTIVE,
