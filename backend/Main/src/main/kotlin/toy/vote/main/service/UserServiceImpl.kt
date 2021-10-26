@@ -1,17 +1,12 @@
 package toy.vote.main.service
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import toy.vote.main.datasource.user.entity.User
-import toy.vote.main.datasource.user.repository.UserRepository
+import toy.vote.main.wrapper.User
 
 @Service
-class UserServiceImpl : UserService {
-
-    @Autowired
-    lateinit var userRepository: UserRepository
+class UserServiceImpl :UserService {
 
     override fun selectUserByEmail(email: String): User? {
-        return userRepository.findUserByEmail(email)
+        TODO("Not yet implemented")
     }
 }

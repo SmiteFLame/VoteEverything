@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import toy.vote.main.cache.Cache
 import toy.vote.main.cache.CacheCollection
-import toy.vote.main.datasource.user.repository.UserRepository
 import toy.vote.main.enumclass.Response
 import toy.vote.main.exception.UserException
 import toy.vote.main.exception.VoteException
@@ -35,9 +34,6 @@ class VoteController {
 
     @Autowired
     lateinit var userService: UserService
-
-    @Autowired
-    lateinit var userRepository: UserRepository
 
     @Autowired
     lateinit var voteRepository: VoteRepository
@@ -135,7 +131,7 @@ class VoteController {
      */
     @PostMapping("/user")
     fun insertVoteColumn(@RequestBody voteUser: VoteUser): ResponseEntity<Response> {
-        if (userRepository.findUserByEmail(voteUser.email) == null) {
+        if (userService.selectUserByEmail(voteUser.email) == null) {
             throw UserException.NullUserException()
         }
         return ResponseEntity<Response>(voteService.insertVoteColumn(voteUser), HttpStatus.OK)
