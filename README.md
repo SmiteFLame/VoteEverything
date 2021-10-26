@@ -68,8 +68,10 @@ CREATE TABLE community(
 
 -- Comment
 CREATE TABLE comment(
+    comment_id INT NOT NULL,
     community_id INT NOT NULL,
     email VARCHAR(50) NOT NULL,
+    name VARCHAR(30) NOT NULL,
     time TIMESTAMP NOT NULL,
     content VARCHAR(500) NOT NULL,
     FOREIGN KEY(community_id) REFERENCES community(community_id)
