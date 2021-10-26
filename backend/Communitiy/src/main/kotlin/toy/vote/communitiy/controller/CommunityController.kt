@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import toy.vote.communitiy.datasource.community.entity.Community
+import toy.vote.communitiy.enumclass.Response
 import toy.vote.communitiy.exception.CommunityException
 import toy.vote.communitiy.exception.UserException
 import toy.vote.communitiy.service.CommunityService
@@ -41,14 +42,13 @@ class CommunityController{
     }
 
     @PostMapping
-    fun insertCommunity(@RequestHeader jwt: String?, @RequestBody community: Community): ResponseEntity<String>{
+    fun insertCommunity(@RequestHeader jwt: String?, @RequestBody community: Community): ResponseEntity<Response>{
         if(jwt == null){
             throw UserException.NotLoginException()
         }
 
         userService.selectUserByJwt(jwt) ?: throw UserException.NullUserException()
 
-
-
+        return ResponseEntity<Response>(communityService.insertCommunity(community), HttpStatus.CREATED)
     }
 }
