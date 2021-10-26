@@ -38,7 +38,7 @@ CREATE TABLE vote_user(
 ### User
 
 ```MySQL
-docker run -p 43306:3306 --name VoteDB -e MYSQL_ROOT_PASSWORD=toy -e MYSQL_DATABASE="vote" -d mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+docker run -p 53306:3306 --name UoteDB -e MYSQL_ROOT_PASSWORD=toy -e MYSQL_DATABASE="user" -d mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
 -- User
 CREATE TABLE user(
@@ -48,5 +48,32 @@ CREATE TABLE user(
     status INT NOT NULL,
     name VARCHAR(30) NOT NULL
 );
+
+```
+
+### Community
+
+```
+docker run -p 63306:3306 --name CommunityDB -e MYSQL_ROOT_PASSWORD=toy -e MYSQL_DATABASE="community" -d mysql:latest --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+-- Community
+CREATE TABLE community(
+    community_id INT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    time TIMESTAMP NOT NULL,
+    content VARCHAR(500) NOT NULL
+);
+
+-- Comment
+CREATE TABLE comment(
+    community_id INT NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    time TIMESTAMP NOT NULL,
+    content VARCHAR(500) NOT NULL,
+    FOREIGN KEY(community_id) REFERENCES community(community_id)
+);
+
 
 ```
