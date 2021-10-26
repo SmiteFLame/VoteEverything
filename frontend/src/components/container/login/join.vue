@@ -8,7 +8,7 @@
 					<form id="joinform" method="post" action="post">
 						<div class="form-group" align="left">
 							<label for="">아이디</label> <input type="email" class="form-control"
-								id="userid" ref="userid" v-model="useremail" placeholder="">
+								id="useremail" ref="useremail" v-model="useremail" placeholder="">
 						</div>
 						<div class="form-group" align="left">
 							<label for="">비밀번호</label> <input type="password"
