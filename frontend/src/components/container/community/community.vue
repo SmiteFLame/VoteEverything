@@ -63,11 +63,11 @@ export default {
 	},
   data(){
 	  return{
-		  key:"",
-		  word:"",
+		  limit:10,
+          offset:0,
+          sort_by:"",
+          order_by:"",
 		  communitys:[],
-		  bean:{},
-		  pageLinks:[1, 2, 3, 4, 5]
 	  }
   }, methods:{
 	  movePage(){
@@ -78,9 +78,9 @@ export default {
             this.word = "all";
         }
         axios
-		.get(`http://localhost:8808/${this.key}/${this.word}`)
-		.then(() =>{
-			this.searchAll();
+		.get(`http://localhost:8808/community?sort_by=${this.sort_by}&order_by=${this.order_by}&limit=${this.limit}&offset=${this.offset}`)
+		.then((res) =>{
+            this.communitys = res.data.content
 		})
 		.catch(() =>{
 			alert("오류 발생!!!");

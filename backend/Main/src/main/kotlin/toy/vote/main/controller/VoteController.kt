@@ -52,10 +52,6 @@ class VoteController {
     ): ResponseEntity<List<VoteOutput>> {
         val voteOutputs = voteService.selectVotes(limit, offset)
 
-        if (voteOutputs.isEmpty()) {
-            throw VoteException.NullVoteException()
-        }
-
         return ResponseEntity<List<VoteOutput>>(voteOutputs, HttpStatus.OK)
     }
 
