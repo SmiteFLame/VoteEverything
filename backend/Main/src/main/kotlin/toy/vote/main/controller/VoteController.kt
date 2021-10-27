@@ -3,6 +3,7 @@ package toy.vote.main.controller
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,6 +29,7 @@ import toy.vote.main.service.VoteService
 import java.time.LocalDateTime
 
 @RestController
+@CrossOrigin(origins = ["*"], maxAge = 6000)
 @RequestMapping("/votes")
 class VoteController {
     @Autowired

@@ -47,7 +47,6 @@ export default{
         }
       })
 		}, test(){
-      console.log(this.jwt)
       axios
       .get(`http://localhost:8081/auth/user`)
       .then(res =>{

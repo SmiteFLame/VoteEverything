@@ -58,7 +58,7 @@ docker run -p 63306:3306 --name CommunityDB -e MYSQL_ROOT_PASSWORD=toy -e MYSQL_
 
 -- Community
 CREATE TABLE community(
-    community_id INT PRIMARY KEY,
+    community_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(50) NOT NULL,
     name VARCHAR(30) NOT NULL,
     title VARCHAR(50) NOT NULL,

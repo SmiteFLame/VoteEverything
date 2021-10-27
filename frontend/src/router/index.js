@@ -9,7 +9,8 @@ import MakeVote from "../components/container/vote/makeVote.vue";
 import Login from "../components/container/login/login.vue";
 import Join from "../components/container/login/join.vue";
 
-import Community from  "../components/container/community/community.vue";
+import Community from "../components/container/community/community.vue";
+import CommunityInsert from "../components/container/community/communityinsert.vue";
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,11 @@ const routes = [
     path: "/community",
     name: "Community",
     component: Community,
+  },
+  {
+    path: "/communityinsert",
+    name: "CommunityInsert",
+    component: CommunityInsert,
   },
 ];
 
