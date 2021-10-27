@@ -21,6 +21,10 @@ class CommunityServiceImpl: CommunityService {
         return communityRepository.findAll(offsetBasedPageRequest)
     }
 
+    override fun selectCommunityByCommunityId(communityId: Int): Community? {
+        return communityRepository.findCommunityByCommunityId(communityId)
+    }
+
     override fun insertCommunity(user: User, communityInput: CommunityInput): Response {
         communityRepository.save(Community(
             email = user.email,

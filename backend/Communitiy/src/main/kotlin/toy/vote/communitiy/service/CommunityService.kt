@@ -9,5 +9,6 @@ import toy.vote.communitiy.wrapper.User
 
 interface CommunityService {
     fun selectCommunities(offsetBasedPageRequest: OffsetBasedPageRequest): Page<Community>
+    fun selectCommunityByCommunityId(communityId: Int): Community?
     fun insertCommunity(user: User, communityInput: CommunityInput): Response
 }

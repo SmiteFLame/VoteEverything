@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -45,8 +46,18 @@ class CommunityController {
         return ResponseEntity<Page<Community>>(communityList, HttpStatus.OK)
     }
 
+    @GetMapping("/{community_id}")
+    fun selectCommunityByCommunityId(@PathVariable(name = "community_id") communityId: Int): ResponseEntity<Community> {
+        val community = communityService.selectCommunityByCommunityId(communityId)
+            ?: throw CommunityException.NullCommunityException()
+        return ResponseEntity<Community>(community, HttpStatus.OK)
+    }
+
     @PostMapping
-    fun insertCommunity(@RequestHeader jwt: String?, @RequestBody communityInput: CommunityInput): ResponseEntity<Response> {
+    fun insertCommunity(
+        @RequestHeader jwt: String?,
+        @RequestBody communityInput: CommunityInput
+    ): ResponseEntity<Response> {
 
         if (jwt == null) {
             throw UserException.NotLoginException()
