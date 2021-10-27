@@ -38,12 +38,12 @@
           <th>날짜</th>
         </tr>
         <tr v-for="(community, index) in communitys" :key="index">
-          <td>{{ community.no }}</td>
+          <td>{{ community.communityId }}</td>
           <td>
             <router-link :to="'communitysearch?no=' + community.no">{{ community.title }}</router-link>
           </td>
-          <td v-text="community.username"></td>
-          <td v-text="community.regtime"></td>
+          <td v-text="community.name"></td>
+          <td v-text="timeChange(community.time)"></td>
         </tr>
       </table>
     </div>
@@ -73,6 +73,7 @@ export default {
 	  movePage(){
           this.$router.push("/communityinsert");
 	  },
+      
 	 search(){
         if(this.key == 'all'){
             this.word = "all";
@@ -85,11 +86,10 @@ export default {
 		.catch(() =>{
 			alert("오류 발생!!!");
 		})
-		
-   }
+    }, timeChange(time){
+        return new Date(time).toLocaleString()
+    }
   }, created(){
-		this.key = 'all';
-		this.word = 'all';
 	    this.search()
 	  }
   }
