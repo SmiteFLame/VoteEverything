@@ -5,21 +5,22 @@
 		<div class="row text-center"> 
 			<div class="col-sm-1"/>
 			<div class="col-sm-2">
-			<select class="form-control" v-model="key" id="key">
-          			<option value="all" selected>전체 검색</option>
-          			<option value="title">제목</option>
-          			<option value="username">작성자</option>
-          			<option value="content">내용</option>
-          		</select>
+			<select class="form-control" v-model="id_type" id="id_type">
+        <option value="" selected>전체 검색</option>
+        <option value="communityId">번호</option>
+        <option value="title">제목</option>
+        <option value="name">작성자</option>
+        <option value="content">내용</option>
+      </select>
 			</div>
       <div class="col-sm-7">
-			<input class="form-control" placeholder="Enter search word" type="text" v-model="word"/>
+			  <input class="form-control" placeholder="Enter search word" type="text" v-model="id_word"/>
 			</div>
       <div class="col-sm-1">
-			<button class="btn btn-secondary" @click="searchByKey()">검색</button>
+			  <button class="btn btn-secondary" @click="search()">검색</button>
 			</div>
       <div class="col-sm-1">
-      <button class="btn btn-light" v-if="username" @click="movePage">등록</button>
+        <button class="btn btn-light" v-if="username" @click="movePage">등록</button>
 			</div>
 		</div>
 	<br><br>
@@ -64,30 +65,32 @@ export default {
   data(){
 	  return{
 		  limit:10,
-          offset:0,
-          sort_by:"",
-          order_by:"",
+      offset:0,
+      sort_by:"",
+      order_by:"",
+      id_type:"",
+      id_word:"",
 		  communitys:[],
 	  }
   }, methods:{
 	  movePage(){
           this.$router.push("/communityinsert");
 	  },
-      
-	 search(){
-        if(this.key == 'all'){
-            this.word = "all";
-        }
-        axios
-		.get(`http://localhost:8808/community?sort_by=${this.sort_by}&order_by=${this.order_by}&limit=${this.limit}&offset=${this.offset}`)
-		.then((res) =>{
+    search(){
+      var url = `http://localhost:8808/community?sort-by=${this.sort_by}&order-by=${this.order_by}&limit=${this.limit}&offset=${this.offset}`
+      if(this.id_type != ""){
+        url += `&${this.id_type}=${this.id_word}`
+      }
+      axios
+		  .get(url)
+		  .then((res) =>{
             this.communitys = res.data.content
-		})
-		.catch(() =>{
-			alert("오류 발생!!!");
-		})
+		  })
+		  .catch(() =>{
+			  alert("오류 발생!!!");
+		  })
     }, timeChange(time){
-        return new Date(time).toLocaleString()
+      return new Date(time).toLocaleString()
     }
   }, created(){
 	    this.search()
