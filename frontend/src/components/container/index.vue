@@ -4,26 +4,26 @@
 		<div class="container mt-3">
   			<h2>Best 3</h2>
 			<div class="row text-center">
-  				<div class="col-sm-4 card" style="width:400px;">
+  				<div class="col-sm-4 card" style="width:400px;" v-if="votesBest[1]">
     				<div class="card-header">{{votesBest[1].vote.voteName}}</div>
-    				<div class="card-body" style="width:400px" v-for="(voteColumn, index) in votesBest[0].voteColumnOutputList" :key="index">
+    				<div class="card-body" style="width:400px" v-for="(voteColumn, index) in votesBest[1].voteColumnOutputList" :key="index">
     					{{voteColumn.voteColumn.columnName}}
   					</div>
     				<div class="card-footer">{{votesBest[1].vote.email}}</div>
   				</div>
-				<div class="col-sm-4 card" style="width:400px;">
+				<div class="col-sm-4 card" style="width:400px;" v-if="votesBest[0]">
     				<div class="card-header">{{votesBest[0].vote.voteName}}</div>
     				<div class="card-body" style="width:400px" v-for="(voteColumn, index) in votesBest[0].voteColumnOutputList" :key="index">
     					{{voteColumn.voteColumn.columnName}}
   					</div>
     				<div class="card-footer">{{votesBest[0].vote.email}}</div>
   				</div>
-				<div class="col-sm-4 card" style="width:400px;">
-    				<div class="card-header">{{votesBest[1].vote.voteName}}</div>
-    				<div class="card-body" style="width:400px" v-for="(voteColumn, index) in votesBest[1].voteColumnOutputList" :key="index">
+				<div class="col-sm-4 card" style="width:400px;" v-if="votesBest[2]">
+    				<div class="card-header">{{votesBest[2].vote.voteName}}</div>
+    				<div class="card-body" style="width:400px" v-for="(voteColumn, index) in votesBest[2].voteColumnOutputList" :key="index">
     					{{voteColumn.voteColumn.columnName}}
   					</div>
-    				<div class="card-footer">{{votesBest[1].vote.email}}</div>
+    				<div class="card-footer">{{votesBest[2].vote.email}}</div>
   				</div>
 			</div>
 		</div>
