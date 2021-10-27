@@ -35,7 +35,6 @@ export default {
     };
   },computed:{
     ...mapGetters(["username"]),
-    ...mapGetters(["jwt"])
   },
   methods: {
     createHandler() {
@@ -71,7 +70,7 @@ export default {
       this.$router.push("/community");
     }
   }, created(){
-    axios.defaults.headers.common['jwt'] = this.jwt
+    axios.defaults.headers.common['jwt'] = this.$cookies.get("jwt")
 	}
 }
 </script>

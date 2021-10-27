@@ -17,7 +17,7 @@
 				  <li class="nav-item"><router-link class="nav-link" to="/join" v-if="username == ''">회원가입</router-link></li>
 				
 				  <li class="nav-item"><a href="#" class="nav-link" @click="logout" v-if="username != ''">로그아웃</a></li>
-				  <li class="nav-item"><a href="#" class="nav-link" @click="test" v-if="username != ''">{{username}}님 환영합니다</a></li>
+				  <li class="nav-item"><a href="#" class="nav-link" @click="getUser" v-if="username != ''">{{username}}님 환영합니다</a></li>
 
 				  <li class="nav-item"><router-link class="nav-link" to="/member" v-if="username =='admin'"> 회원 관리 </router-link></li>
         </ul>
@@ -30,10 +30,12 @@
 import axios from "axios";
 import {mapGetters} from "vuex"
 
+import Vue from "vue";
+import VueCookies from "vue-cookies";
+
 export default{
   computed:{
-    ...mapGetters(["username"]),
-    ...mapGetters(["jwt"])
+    ...mapGetters(["username"])
   },methods:{
 		logout(){
       axios
@@ -43,18 +45,33 @@ export default{
 			    alert("로그아웃 완료");
 			    this.$store.commit('setUsername', "");
 			    this.$store.commit('setjwt', "");
+					this.$cookies.set("jwt", res.data.jwt,"0")
 			    location.reload();
         }
       })
-		}, test(){
+		}, getUser(){
       axios
       .get(`http://localhost:8081/auth/user`)
       .then(res =>{
-        console.log(res)
+        if(res.status == 200){
+						if(res.data.status == "ACTIVE"){
+							this.$store.commit('setUsername', res.data.name)
+						} else{
+              console.log("회원 정보 만료")
+						}
+				}
+      })
+      .catch(e => {
+        console.log(e)
+        console.log("회원 정보 만료")
       })
     }
 	}, created(){
-    axios.defaults.headers.common['jwt'] = this.jwt
+    Vue.use(VueCookies);
+    Vue.$cookies.config("1d");
+    console.log(this.$cookies.get("jwt"))
+    axios.defaults.headers.common['jwt'] = this.$cookies.get("jwt")
+    this.getUser()
 	}
 }
 </script>
