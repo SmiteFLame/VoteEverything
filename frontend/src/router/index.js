@@ -9,6 +9,8 @@ import MakeVote from "../components/container/vote/makeVote.vue";
 import Login from "../components/container/login/login.vue";
 import Join from "../components/container/login/join.vue";
 
+import Community from  "../components/container/community/community.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -36,6 +38,11 @@ const routes = [
     path: "/makeVote",
     name: "MakeVote",
     component: MakeVote,
+  },
+  {
+    path: "/community",
+    name: "Community",
+    component: Community,
   },
 ];
 

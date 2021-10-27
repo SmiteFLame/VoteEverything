@@ -1,6 +1,7 @@
 package toy.vote.communitiy.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,10 +17,11 @@ import toy.vote.communitiy.exception.CommunityException
 import toy.vote.communitiy.exception.UserException
 import toy.vote.communitiy.service.CommunityService
 import toy.vote.communitiy.service.UserService
+import toy.vote.communitiy.util.OffsetBasedPageRequest
 
 @RestController
 @RequestMapping("/community")
-class CommunityController{
+class CommunityController {
 
     @Autowired
     lateinit var userService: UserService
@@ -30,20 +32,19 @@ class CommunityController{
     @GetMapping
     fun selectCommunities(
         @RequestParam(defaultValue = "10") limit: Int,
-        @RequestParam(defaultValue = "0") offset: Long
-    ): ResponseEntity<List<Community>>{
-        val communityList = communityService.selectCommunities(limit, offset)
+        @RequestParam(defaultValue = "0") offset: Long,
+        @RequestParam(value = "sort-by") sortBy: String?,
+        @RequestParam(value = "order-by") orderBy: String?,
+    ): ResponseEntity<Page<Community>> {
+        val communityList =
+            communityService.selectCommunities(OffsetBasedPageRequest(limit, offset, sortBy, orderBy, "communityId"))
 
-        if(communityList.isEmpty()){
-            throw CommunityException.NullCommunityException()
-        }
-
-        return ResponseEntity<List<Community>>(communityList, HttpStatus.OK)
+        return ResponseEntity<Page<Community>>(communityList, HttpStatus.OK)
     }
 
     @PostMapping
-    fun insertCommunity(@RequestHeader jwt: String?, @RequestBody community: Community): ResponseEntity<Response>{
-        if(jwt == null){
+    fun insertCommunity(@RequestHeader jwt: String?, @RequestBody community: Community): ResponseEntity<Response> {
+        if (jwt == null) {
             throw UserException.NotLoginException()
         }
 
