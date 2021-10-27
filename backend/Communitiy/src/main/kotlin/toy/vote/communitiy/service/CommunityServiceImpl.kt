@@ -9,10 +9,9 @@ import toy.vote.communitiy.datasource.community.util.CommunityInput
 import toy.vote.communitiy.enumclass.Response
 import toy.vote.communitiy.util.OffsetBasedPageRequest
 import toy.vote.communitiy.wrapper.User
-import java.sql.Timestamp
 
 @Service
-class CommunityServiceImpl: CommunityService {
+class CommunityServiceImpl : CommunityService {
 
     @Autowired
     lateinit var communityRepository: CommunityRepository
@@ -26,12 +25,14 @@ class CommunityServiceImpl: CommunityService {
     }
 
     override fun insertCommunity(user: User, communityInput: CommunityInput): Response {
-        communityRepository.save(Community(
-            email = user.email,
-            name = user.name,
-            title = communityInput.title,
-            content = communityInput.content
-        ))
+        communityRepository.save(
+            Community(
+                email = user.email,
+                name = user.name,
+                title = communityInput.title,
+                content = communityInput.content
+            )
+        )
 
         return Response.SUCCESS
     }

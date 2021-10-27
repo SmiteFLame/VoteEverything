@@ -44,7 +44,6 @@ export default{
         if(res.status == 200){
 			    alert("로그아웃 완료");
 			    this.$store.commit('setUsername', "");
-			    this.$store.commit('setjwt', "");
 					this.$cookies.set("jwt", res.data.jwt,"0")
 			    location.reload();
         }

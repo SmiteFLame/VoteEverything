@@ -1,6 +1,6 @@
 package toy.vote.communitiy.enumclass
 
-enum class UserStatus{
+enum class UserStatus {
     ACTIVE,
     INACTIVE
 }

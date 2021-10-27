@@ -8,7 +8,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
 
-@Table(name="community")
+@Table(name = "community")
 @Entity
 class Community {
     @Id

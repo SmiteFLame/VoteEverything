@@ -31,7 +31,6 @@ export default{
 			.get(`http://localhost:8888/votes?limit=${this.limit}&offset=${this.offset}`)
 			.then((res) =>{
 				this.votes = res.data
-				console.log(this.votes)
 			})
 		}
 	}, created(){
