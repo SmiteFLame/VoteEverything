@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import toy.vote.communitiy.datasource.community.entity.Community
+import toy.vote.communitiy.datasource.community.repository.CommunityRepository
 import toy.vote.communitiy.datasource.community.util.CommunityInput
 import toy.vote.communitiy.enumclass.Response
 import toy.vote.communitiy.exception.CommunityException
@@ -33,15 +34,29 @@ class CommunityController {
     @Autowired
     lateinit var communityService: CommunityService
 
+    @Autowired
+    lateinit var communityRepository: CommunityRepository
+
     @GetMapping
     fun selectCommunities(
         @RequestParam(defaultValue = "10") limit: Int,
         @RequestParam(defaultValue = "0") offset: Long,
-        @RequestParam(value = "sort-by") sortBy: String?,
-        @RequestParam(value = "order-by") orderBy: String?,
+        @RequestParam map: Map<String, String>
     ): ResponseEntity<Page<Community>> {
-        val communityList =
-            communityService.selectCommunities(OffsetBasedPageRequest(limit, offset, sortBy, orderBy, "communityId"))
+        val offsetBasedPageRequest =
+            OffsetBasedPageRequest(limit, offset, map["sort-by"], map["order-by"], "communityId")
+
+        val communityList = if (map.containsKey("communityId")) {
+            communityRepository.findCommunitiesByCommunityIdContaining(map["communityId"]!!.toInt(), offsetBasedPageRequest)
+        } else if (map.containsKey("title")) {
+            communityRepository.findCommunitiesByTitleContaining(map["title"]!!, offsetBasedPageRequest)
+        } else if (map.containsKey("name")) {
+            communityRepository.findCommunitiesByNameContaining(map["name"]!!, offsetBasedPageRequest)
+        } else if (map.containsKey("content")) {
+            communityRepository.findCommunitiesByContentContaining(map["content"]!!, offsetBasedPageRequest)
+        } else {
+            communityRepository.findAll(offsetBasedPageRequest)
+        }
 
         return ResponseEntity<Page<Community>>(communityList, HttpStatus.OK)
     }

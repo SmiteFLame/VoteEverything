@@ -16,10 +16,6 @@ class CommunityServiceImpl : CommunityService {
     @Autowired
     lateinit var communityRepository: CommunityRepository
 
-    override fun selectCommunities(offsetBasedPageRequest: OffsetBasedPageRequest): Page<Community> {
-        return communityRepository.findAll(offsetBasedPageRequest)
-    }
-
     override fun selectCommunityByCommunityId(communityId: Int): Community? {
         return communityRepository.findCommunityByCommunityId(communityId)
     }
