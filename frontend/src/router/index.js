@@ -11,6 +11,7 @@ import Join from "../components/container/login/join.vue";
 
 import Community from "../components/container/community/community.vue";
 import CommunityInsert from "../components/container/community/communityinsert.vue";
+import CommunitySearch from "../components/container/community/communitysearch.vue";
 
 Vue.use(VueRouter);
 
@@ -49,6 +50,11 @@ const routes = [
     path: "/communityinsert",
     name: "CommunityInsert",
     component: CommunityInsert,
+  },
+  {
+    path: "/communitysearch",
+    name: "CommunitySearch",
+    component: CommunitySearch,
   },
 ];
 

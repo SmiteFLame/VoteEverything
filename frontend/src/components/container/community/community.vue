@@ -42,7 +42,7 @@
           <tr v-for="(community, index) in communitys" :key="index">
             <td>{{ community.communityId }}</td>
             <td>
-              <router-link style="text-decoration:none; color:black" :to="'communitysearch?no=' + community.no">{{ community.title }}</router-link>
+              <router-link style="text-decoration:none; color:black" :to="'communitysearch?no=' + community.communityId">{{ community.title }}</router-link>
             </td>
             <td v-text="community.name"></td>
             <td style = "text-align: left" v-text="timeChange(community.time)"></td>
