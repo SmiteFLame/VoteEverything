@@ -17,12 +17,12 @@
       	<tr>
       	  <td colspan="5" style="height:400px; vertical-align:text-top" v-text="community.content"></td>
       	</tr>
-	  	
+
       	<tr>
       	  <th colspan="3" style="width:10%">작성된 시간</th>
       	  <td colspan="2" style="width:90%" v-text="timeChange(community.time)"></td>
 	  	</tr>
-	
+
       	<tr>
 			  <td class="text-center" colspan="5"></td>
       	</tr>
@@ -74,7 +74,7 @@ export default {
 	},methods:{
 		remove(){
 			 axios
-      		.delete(`http://localhost:8808/happyhouse/api/community/${this.community.no}`)
+      		.delete(`http://localhost:8808/community/${this.community.no}`)
       		.then(({ data }) => {
         	if (data == "success") {
           		alert("삭제 완료!!!");
@@ -94,7 +94,7 @@ export default {
 		},
 		addComment(){
 		axios
-          .post(`http://localhost:8675/happyhouse/api/community/comment`, {
+          .post(`http://localhost:8808/comment/`, {
             username: this.userid,
 			cno: this.community.no,
 			info: this.newcomment
@@ -109,7 +109,7 @@ export default {
 		},
 		deleteComment(no){
 			axios
-      		.delete(`http://localhost:8675/happyhouse/api/community/comment/${no}`)
+      		.delete(`http://localhost:8808/comment/${no}`)
       		.then(({ data }) => {
         	if (data == "success") {
           		alert("삭제 완료!!!");
@@ -136,14 +136,15 @@ export default {
 		})
 
 		
-		// axios
-		// .get(`http://localhost:8675/happyhouse/api/community/comment/${this.$route.query.no}`)
-		// .then(({data}) =>{
-		// 	this.comments = data;
-		// })
-		// .catch(() =>{
-		// 	alert("오류 발생!!!");
-		// })
+		axios
+		.get(`http://localhost:8808/comment?communityId=${this.$route.query.no}`)
+		.then(({data}) =>{
+			this.comments = data.content;
+			console.log(this.comments)
+		})
+		.catch(() =>{
+			alert("오류 발생!!!");
+		})
 	}
 };
 </script>

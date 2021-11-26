@@ -41,7 +41,8 @@ class OffsetBasedPageRequest : Pageable {
         } else {
             Sort.Direction.ASC
         }
-        return if (sortBy == "") {
+
+        return if (sortBy == null) {
             Sort.by(order, primaryKey)
         } else {
             Sort.by(order, sortBy)
